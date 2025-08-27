@@ -320,9 +320,9 @@
                     if (attempts === 1) {
                         hint = '❌ 錯誤！提示：這個節點類型跟「鉤子」有關...';
                     } else if (attempts === 2) {
-                        hint = '❌ 再試試！提示：web + hook = ?';
-                    } else {
                         hint = '❌ 繼續嘗試！提示：它是一種HTTP回調機制，英文名稱...';
+                    } else {
+                        hint = '❌ 再試試！提示：開頭三個字是web..';
                     }
                     
                     feedbackText.textContent = hint;
