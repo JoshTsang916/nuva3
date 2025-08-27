@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>神秘訊息</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+        
+        body {
+            font-family: 'Orbitron', monospace;
+            background: #0a0a0a;
+            overflow: hidden;
+        }
+        
+        .noise-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%);
+            animation: noise 0.2s infinite;
+        }
+        
+        .noise-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 255, 255, 0.03) 2px,
+                    rgba(0, 255, 255, 0.03) 4px
+                ),
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(255, 0, 255, 0.03) 2px,
+                    rgba(255, 0, 255, 0.03) 4px
+                );
+            animation: scan 3s linear infinite;
+        }
+        
+        .noise-bg::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E");
+            animation: flicker 0.15s infinite;
+        }
+        
+        @keyframes noise {
+            0%, 100% { transform: translate(0, 0); }
+            10% { transform: translate(-1px, -1px); }
+            20% { transform: translate(1px, -1px); }
+            30% { transform: translate(-1px, 1px); }
+            40% { transform: translate(1px, 1px); }
+            50% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, -1px); }
+            70% { transform: translate(-1px, 1px); }
+            80% { transform: translate(1px, 1px); }
+            90% { transform: translate(-1px, -1px); }
+        }
+        
+        @keyframes scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+        
+        @keyframes flicker {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.15; }
+        }
+        
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 255, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(0, 255, 255, 0.8); }
+        }
+        
+        @keyframes typewriter {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        .dialog-box {
+            background: rgba(0, 20, 40, 0.9);
+            border: 2px solid #00ffff;
+            box-shadow: 
+                0 0 20px rgba(0, 255, 255, 0.3),
+                inset 0 0 20px rgba(0, 255, 255, 0.1);
+            animation: glow 2s ease-in-out infinite;
+        }
+        
+        .glitch-text {
+            position: relative;
+            color: #00ffff;
+            text-shadow: 
+                0 0 10px #00ffff,
+                0 0 20px #00ffff,
+                0 0 30px #00ffff;
+        }
+        
+        .glitch-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #ff00ff;
+            z-index: -1;
+            animation: glitch1 0.3s infinite;
+        }
+        
+        .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            color: #ffff00;
+            z-index: -2;
+            animation: glitch2 0.3s infinite;
+        }
+        
+        @keyframes glitch1 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(1px, 1px); }
+            80% { transform: translate(1px, -1px); }
+        }
+        
+        @keyframes glitch2 {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(1px, -1px); }
+            40% { transform: translate(1px, 1px); }
+            60% { transform: translate(-1px, -1px); }
+            80% { transform: translate(-1px, 1px); }
+        }
+        
+        .input-field {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid #00ffff;
+            color: #00ffff;
+            text-shadow: 0 0 5px #00ffff;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #ff00ff;
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+        }
+        
+        .btn-cyber {
+            background: linear-gradient(45deg, #00ffff, #0080ff);
+            border: none;
+            color: #000;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-cyber:hover {
+            background: linear-gradient(45deg, #ff00ff, #ff0080);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);
+        }
+        
+        .btn-cyber::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-cyber:hover::before {
+            left: 100%;
+        }
+        
+        .message-hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+        
+        .message-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center">
+    <div class="noise-bg"></div>
+    
+    <div class="dialog-box rounded-lg p-8 max-w-2xl mx-4 relative z-10">
+        <div class="text-center mb-6">
+            <h1 class="glitch-text text-3xl font-bold mb-4" data-text="訊息之門">神秘訊息</h1>
+            <div class="w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mb-6"></div>
+        </div>
+        
+        <div class="space-y-6 text-cyan-300">
+            <div class="bg-black bg-opacity-50 p-4 rounded border border-cyan-500">
+                <p class="text-sm leading-relaxed">
+                    你收到了一段模糊的低語，但無法被理解。好像有生物試圖傳送訊息給你。
+                </p>
+            </div>
+            
+            <div class="bg-black bg-opacity-50 p-4 rounded border border-cyan-500">
+                <p class="text-sm leading-relaxed">
+                    只有開啟一個「訊息之門」才能準確接收外界傳來的訊號。
+                </p>
+            </div>
+            
+            <div class="bg-black bg-opacity-50 p-4 rounded border border-cyan-500">
+                <p class="text-sm leading-relaxed mb-4">
+                    你必須要架設一個節點來幫助你獲取外部訊息
+                </p>
+                
+                <div class="flex items-center space-x-3">
+                    <span class="text-cyan-400 font-mono">架設</span>
+                    <input 
+                        type="text" 
+                        id="nodeInput" 
+                        class="input-field px-3 py-2 rounded font-mono flex-1"
+                        placeholder="輸入節點類型..."
+                        maxlength="20"
+                    >
+                    <span class="text-cyan-400 font-mono">節點</span>
+                    <button 
+                        onclick="checkAnswer()" 
+                        class="btn-cyber px-6 py-2 rounded"
+                    >
+                        執行
+                    </button>
+                </div>
+            </div>
+            
+            <div id="feedback" class="bg-black bg-opacity-50 p-4 rounded border border-red-500 message-hidden">
+                <p id="feedbackText" class="text-red-400 text-sm"></p>
+            </div>
+            
+            <div id="success" class="bg-black bg-opacity-50 p-4 rounded border border-green-500 message-hidden">
+                <p class="text-green-400 text-sm mb-4">
+                    🎉 恭喜你！你現在可以收到外部訊息了！
+                </p>
+                <div class="border-t border-green-500 pt-4">
+                    <p class="text-yellow-300 font-mono text-sm glitch-text" data-text="模糊的低語：「勇者...幫幫我...我在(136,981)...」">
+                        模糊的低語：「勇者...幫幫我...我在(136,981)...」
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-8 text-center">
+            <div class="inline-flex items-center space-x-2 text-xs text-cyan-600">
+                <div class="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+                <span class="font-mono">系統狀態：等待輸入</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let attempts = 0;
+        const correctAnswer = 'webhook';
+        
+        function checkAnswer() {
+            const input = document.getElementById('nodeInput');
+            const feedback = document.getElementById('feedback');
+            const feedbackText = document.getElementById('feedbackText');
+            const success = document.getElementById('success');
+            const userAnswer = input.value.toLowerCase().trim();
+            
+            attempts++;
+            
+            // 隱藏之前的訊息
+            feedback.classList.remove('message-visible');
+            feedback.classList.add('message-hidden');
+            success.classList.remove('message-visible');
+            success.classList.add('message-hidden');
+            
+            setTimeout(() => {
+                if (userAnswer === correctAnswer) {
+                    // 答對了
+                    success.classList.remove('message-hidden');
+                    success.classList.add('message-visible');
+                    input.disabled = true;
+                    input.style.opacity = '0.5';
+                    
+                    // 更新系統狀態
+                    document.querySelector('.text-cyan-600 span').textContent = '系統狀態：連線成功';
+                    document.querySelector('.bg-cyan-400').classList.add('bg-green-400');
+                    document.querySelector('.bg-cyan-400').classList.remove('bg-cyan-400');
+                    
+                } else {
+                    // 答錯了，給提示
+                    let hint = '';
+                    if (attempts === 1) {
+                        hint = '❌ 錯誤！提示：這個節點類型跟「鉤子」有關...';
+                    } else if (attempts === 2) {
+                        hint = '❌ 再試試！提示：web + hook = ?';
+                    } else {
+                        hint = '❌ 繼續嘗試！提示：它是一種HTTP回調機制，英文名稱...';
+                    }
+                    
+                    feedbackText.textContent = hint;
+                    feedback.classList.remove('message-hidden');
+                    feedback.classList.add('message-visible');
+                }
+                
+                // 清空輸入框
+                if (userAnswer !== correctAnswer) {
+                    input.value = '';
+                    input.focus();
+                }
+            }, 300);
+        }
+        
+        // 按Enter鍵也可以提交
+        document.getElementById('nodeInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkAnswer();
+            }
+        });
+        
+        // 自動聚焦到輸入框
+        document.getElementById('nodeInput').focus();
+        
+        // 添加打字機效果到標題
+        window.addEventListener('load', function() {
+            const title = document.querySelector('.glitch-text');
+            title.style.animation = 'glow 2s ease-in-out infinite';
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'975c26764298a9bb',t:'MTc1NjMwMzgwNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
