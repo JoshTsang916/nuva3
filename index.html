@@ -11,7 +11,8 @@
         body {
             font-family: 'Orbitron', monospace;
             background: #0a0a0a;
-            overflow: hidden;
+            overflow-x: hidden;
+            min-height: 100vh;
         }
         
         .noise-bg {
@@ -112,6 +113,66 @@
                 0 0 10px #00ffff,
                 0 0 20px #00ffff,
                 0 0 30px #00ffff;
+        }
+        
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .glitch-text {
+                font-size: 1.5rem !important;
+            }
+            
+            .dialog-box {
+                margin: 1rem;
+                padding: 1.5rem !important;
+            }
+            
+            .mobile-stack {
+                flex-direction: column !important;
+                align-items: stretch !important;
+                gap: 0.75rem !important;
+            }
+            
+            .mobile-full-width {
+                width: 100% !important;
+                text-align: center;
+            }
+            
+            .input-field {
+                width: 100%;
+                min-width: 0;
+            }
+            
+            .btn-cyber {
+                width: 100%;
+                padding: 0.75rem 1.5rem;
+            }
+            
+            .text-3xl {
+                font-size: 1.5rem;
+            }
+            
+            body {
+                padding: 1rem 0;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .dialog-box {
+                margin: 0.5rem;
+                padding: 1rem !important;
+            }
+            
+            .glitch-text {
+                font-size: 1.25rem !important;
+            }
+            
+            .input-field {
+                font-size: 14px;
+            }
+            
+            .btn-cyber {
+                font-size: 14px;
+            }
         }
         
         .glitch-text::before {
@@ -215,7 +276,7 @@
 <body class="min-h-screen flex items-center justify-center">
     <div class="noise-bg"></div>
     
-    <div class="dialog-box rounded-lg p-8 max-w-2xl mx-4 relative z-10">
+    <div class="dialog-box rounded-lg p-8 max-w-2xl w-full mx-4 relative z-10">
         <div class="text-center mb-6">
             <h1 class="glitch-text text-3xl font-bold mb-4" data-text="神秘訊息">神秘訊息</h1>
             <div class="w-full h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent mb-6"></div>
@@ -239,19 +300,19 @@
                     你必須要架設一個節點來幫助你獲取外部訊息
                 </p>
                 
-                <div class="flex items-center space-x-3">
-                    <span class="text-cyan-400 font-mono">架設</span>
+                <div class="flex items-center space-x-3 mobile-stack">
+                    <span class="text-cyan-400 font-mono mobile-full-width">架設</span>
                     <input 
                         type="text" 
                         id="nodeInput" 
-                        class="input-field px-3 py-2 rounded font-mono flex-1"
+                        class="input-field px-3 py-2 rounded font-mono flex-1 mobile-full-width"
                         placeholder="輸入節點類型..."
                         maxlength="20"
                     >
-                    <span class="text-cyan-400 font-mono">節點</span>
+                    <span class="text-cyan-400 font-mono mobile-full-width">節點</span>
                     <button 
                         onclick="checkAnswer()" 
-                        class="btn-cyber px-6 py-2 rounded"
+                        class="btn-cyber px-6 py-2 rounded mobile-full-width"
                     >
                         執行
                     </button>
